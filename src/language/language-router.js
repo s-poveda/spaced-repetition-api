@@ -4,7 +4,7 @@ const { requireAuth } = require('../middleware/jwt-auth');
 
 const languageRouter = express.Router();
 
-languageRouter.use(requireAuth).use(async (req, res, next) => {
+languageRouter.use(requireAuth).use( async (req, res, next) => { //sets req.language and returns 404 if the user doesn't have a language
   try {
     const language = await LanguageService.getUsersLanguage(
       req.app.get('db'),
@@ -34,6 +34,7 @@ languageRouter.get('/', async (req, res, next) => {
       language: req.language,
       words,
     });
+		// QUESTION: why "next()"?
     next();
   } catch (error) {
     next(error);
