@@ -1,5 +1,5 @@
 BEGIN;
--- IMPORTANT: the system hosting this db MUST be using UTF8 encoding
+-- NOTE: IMPORTANT: the system hosting this db MUST be using UTF8 encoding
 -- for windows users: Enable "Beta: Use UTF8 encoding for global language support" in advanced Region settings
 SET client_encoding TO 'UTF8';
 
