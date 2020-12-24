@@ -42,8 +42,22 @@ languageRouter.get('/', async (req, res, next) => {
 });
 
 languageRouter.get('/head', async (req, res, next) => {
-  // implement me
-  res.send('implement me!');
+  try {
+		let head = await LanguageService.getHead(
+			req.app.get('db'),
+			req.language.id
+			);
+		head = {
+			nextWord: head.original,
+			totalScore: head.totalScore,
+			wordCorrectCount: head.correct_count,
+			wordIncorrectCount: head.incorrect_count,
+			totalScore: head.total_score,
+		}
+		res.json(head);
+	} catch (error) {
+		next(error);
+	}
 });
 
 languageRouter.post('/guess', async (req, res, next) => {
