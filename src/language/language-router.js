@@ -66,7 +66,7 @@ languageRouter.post('/guess', jsonBodyParser, async (req, res, next) => {
 		const { guess } = req.body;
 		if (!guess) return res.status(400).json({ error: `Missing 'guess' in request body` });
 		let head = await LanguageService.getHead(req.app.get('db'),	req.language.id);
-		const isCorrect = guess === head.translation? true : false;
+		const isCorrect = guess.toLowerCase() === head.translation.toLowerCase()? true : false;
 		if (isCorrect) {
 			head = await LanguageService.updateMemVal(req.app.get('db'), head.id, head.memory_value * 2);
 			req.language.total_score++;
@@ -84,7 +84,6 @@ languageRouter.post('/guess', jsonBodyParser, async (req, res, next) => {
 			req.app.get('db'),
 			req.language.id
 		);
-		// const updatedLang = await LanguageService.getUsersLanguage(req.app.get('db'), req.user.id);
 		res.json({
 			isCorrect,
 			answer: head.translation,

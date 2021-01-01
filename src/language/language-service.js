@@ -46,7 +46,7 @@ const LanguageService = {
   updateCount(db, isCorrect, langId, wordId) {
     return db.transaction(async trx => {
       const word = await trx('word')
-        .select('correct_count', 'incorrect_count')
+        .select('correct_count', 'incorrect_count', 'id')
         .where({ id: wordId })
         .first();
       if (isCorrect === true) {
@@ -63,7 +63,7 @@ const LanguageService = {
           .update({ correct_count: word.correct_count + 1 });
       } else {
         await trx('word')
-          .where({ id: langId })
+          .where({ id: word.id })
           .update({ incorrect_count: word.incorrect_count + 1 });
       }
     });
