@@ -4,19 +4,19 @@ const knex = require('knex');
 const app = require('./app');
 let { PORT, DB_URL, SSL } = require('./config');
 
-if (SSL !==  null) {
+if (SSL !== null) {
 	switch (SSL.toLowerCase()) {
-		case true:
+		case 'true':
 			SSL = true;
 			break;
-		case false:
-			SSL = false;
+		case 'false':
+		SSL = false;
 	}
 }
 
-const db = knex({
+const db = require('knex')({
   client: 'pg',
-  connection: DB_URL + `${typeof SSL === 'boolean' ? `?ssl=${SSL}` : ''}`,
+  connection: DB_URL + `${typeof SSL === 'boolean'? `?ssl=${SSL}` : ''}`,
 });
 
 app.set('db', db);
