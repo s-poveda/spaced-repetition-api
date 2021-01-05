@@ -2,11 +2,21 @@ require('dotenv').config();
 
 const knex = require('knex');
 const app = require('./app');
-const { PORT, DB_URL } = require('./config');
+let { PORT, DB_URL, SSL } = require('./config');
+
+if (SSL !==  null) {
+	switch (SSL.toLowerCase()) {
+		case true:
+			SSL = true;
+			break;
+		case false:
+			SSL = false;
+	}
+}
 
 const db = knex({
   client: 'pg',
-  connection: DB_URL,
+  connection: DB_URL + `${typeof SSL === 'boolean' ? `?ssl=${SSL}` : ''}`,
 });
 
 app.set('db', db);
